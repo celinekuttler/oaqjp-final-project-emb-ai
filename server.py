@@ -14,8 +14,11 @@ def sent_analyzer():
     response = emotion_detector(text_to_analyze)
     dom_emotion = response['dominant_emotion']
     del response['dominant_emotion']
-    return f'For the given statement, the system response is {json.dumps(response)[1:-2]}. \
-    The dominant emotion is <b>{dom_emotion}</b>.'
+    if dom_emotion == None:
+        return 'Invalid text! Please try again!'
+    else:
+        return f'For the given statement, the system response is {json.dumps(response)[1:-2]}. \
+                    The dominant emotion is <b>{dom_emotion}</b>.'
 
 @app.route("/")
 def render_index_page():
