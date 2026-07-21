@@ -1,6 +1,8 @@
+""" Deployment of Emotion Detection via Flask """
+import json
 from flask import Flask, render_template, request
 from EmotionDetection.emotion_detection import emotion_detector
-import json
+
 
 app = Flask("Emotion Detection")
 
@@ -14,10 +16,9 @@ def sent_analyzer():
     response = emotion_detector(text_to_analyze)
     dom_emotion = response['dominant_emotion']
     del response['dominant_emotion']
-    if dom_emotion == None:
+    if dom_emotion is None:
         return 'Invalid text! Please try again!'
-    else:
-        return f'For the given statement, the system response is {json.dumps(response)[1:-2]}. \
+    return f'For the given statement, the system response is {json.dumps(response)[1:-2]}. \
                     The dominant emotion is <b>{dom_emotion}</b>.'
 
 @app.route("/")
@@ -29,4 +30,4 @@ def render_index_page():
 
 if __name__ == "__main__":
     # This functions executes the flask app and deploys it on localhost:5000
-    app.run(host="0.0.0.0",port=5000)    
+    app.run(host="0.0.0.0",port=5000)
